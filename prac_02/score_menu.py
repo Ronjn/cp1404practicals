@@ -19,6 +19,8 @@ def main():
             result = get_result(score)
             print(result)
         elif choice == "S":
+            if score == -1:
+                print("First you must use G to generate a score")
             for j in range(0, score, 1):
                 print("*", end='')
             print()
