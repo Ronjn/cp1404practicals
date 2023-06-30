@@ -28,14 +28,13 @@ def get_data():
         print("----------")
         subjects.append(parts)
     return subjects
-    input_file.close()
 
 
 def display_subject_details():
-    for i in range(0, len(subjects)):
-        subject_code = (subjects[i])[0]
-        subject_teacher = (subjects[i])[1]
-        student_count = (subjects[i])[2]
+    for subject in subjects:
+        subject_code = subject[0]
+        subject_teacher = subject[1]
+        student_count = subject[2]
         print(f"{subject_code} is taught by {subject_teacher} and has {student_count} students")
 
 
