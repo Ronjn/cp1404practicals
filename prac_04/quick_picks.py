@@ -6,8 +6,10 @@ def main():
     quickpick_count = int(input("How many quick picks? :"))
     for i in range(0, quickpick_count):
         line = []
-        for j in range(0, 6):
-            line.append(random.randint(1, 45))
+        number_of_columns = 6
+        range_of_numbers = 45
+        for j in range(0, number_of_columns):
+            line.append(random.randint(1, range_of_numbers))
         line.sort()
         lines.append(line)
         print("{:2}  {:2}  {:2}  {:2}  {:2}  {:2}".format(lines[i][0], lines[i][1], lines[i][2], lines[i][3],
