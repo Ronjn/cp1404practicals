@@ -25,6 +25,7 @@ def get_data():
         print(parts)  # See if that worked
         print("----------")
         subjects.append(parts)
+    input_file.close()
     return subjects
 
 
