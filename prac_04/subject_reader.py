@@ -3,20 +3,18 @@ CP1404/CP5632 Practical
 Data file -> lists program
 """
 
-FILENAME = "subject_data.txt"
-subjects = []
-
 
 def main():
-    data = get_data()
-    display_subject_details()
-    print(data)
+    subjects = get_data()
+    display_subject_details(subjects)
     print(subjects)
 
 
 def get_data():
     """Read data from file formatted like: subject,lecturer,number of students."""
-    input_file = open(FILENAME)
+    name_of_file = "subject_data.txt"
+    subjects = []
+    input_file = open(name_of_file)
     for line in input_file:
         print(line)  # See what a line looks like
         print(repr(line))  # See what a line really looks like
@@ -30,7 +28,7 @@ def get_data():
     return subjects
 
 
-def display_subject_details():
+def display_subject_details(subjects):
     for subject in subjects:
         subject_code = subject[0]
         subject_teacher = subject[1]
