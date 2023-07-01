@@ -1,7 +1,7 @@
 """
 Word Occurrences
 Estimate: 25 minutes
-Actual:    minutes
+Actual:   45 minutes
 """
 
 text = input("Enter your text: ")
