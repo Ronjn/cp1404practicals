@@ -3,8 +3,8 @@ lines = []
 
 
 def main():
-    quickpick_count = int(input("How many quick picks? :"))
-    for i in range(0, quickpick_count):
+    number_of_quickpicks = int(input("How many quick picks? :"))
+    for i in range(0, number_of_quickpicks):
         line = []
         number_of_columns = 6
         range_of_numbers = 45
