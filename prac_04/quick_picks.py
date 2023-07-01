@@ -1,8 +1,8 @@
 import random
-lines = []
 
 
 def main():
+    lines = []
     number_of_quickpicks = int(input("How many quick picks? :"))
     for i in range(0, number_of_quickpicks):
         line = []
