@@ -15,3 +15,6 @@ while state_code != "":
     else:
         print("Invalid short state")
     state_code = input("Enter short state: ")
+
+for short_state, long_state in CODE_TO_NAME.items():
+    print(f"{short_state:3} is {long_state}")
