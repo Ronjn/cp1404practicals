@@ -7,13 +7,13 @@ Actual:   45 minutes
 
 def main():
     text = input("Enter your text: ")
-    words = text.split()
-    unique_words = set(words)
+    normal_words = text.split()
+    unique_words = set(normal_words)
     word_to_frequency = {}
 
     # Adds values to the dictionary for each unique word from the user input
     for word in unique_words:
-        word_to_frequency[word] = words.count(word)
+        word_to_frequency[word] = normal_words.count(word)
 
     word_to_frequency = dict(sorted(word_to_frequency.items()))  # Sorts the dictionary by alphabetical order
 
