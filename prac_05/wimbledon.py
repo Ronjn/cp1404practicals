@@ -51,7 +51,9 @@ def print_results(champion_to_wins, countries):
         print(f"{name} {number_of_wins}")
 
     print()
-    print("There are 12 countries that have won the Wimbledon:")
+
+    number_of_countries = len(countries)  # Sets the number of countries
+    print(f"There are {number_of_countries} countries that have won the Wimbledon:")
 
     # Prints each country from the countries list
     for country in countries:
