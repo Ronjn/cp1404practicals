@@ -1,6 +1,6 @@
 """
 Estimated time to complete  : 45  minutes
-Actual time to complete     :  minutes
+Actual time to complete     : 60 minutes
 """
 
 
@@ -12,7 +12,7 @@ class Guitar:
         self.cost = cost
 
     def __str__(self):
-        return f"{self.name}, ({self.year}) :${self.cost}"
+        return f"{self.name}, ({self.year}) : ${self.cost}"
 
     def get_age(self):
         age = 2023 - self.year
