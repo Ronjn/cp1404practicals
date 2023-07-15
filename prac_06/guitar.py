@@ -3,6 +3,9 @@ Estimated time to complete  : 45  minutes
 Actual time to complete     : 60 minutes
 """
 
+YEAR = 2023
+VINTAGE_MIN = 50
+
 
 class Guitar:
 
@@ -15,11 +18,11 @@ class Guitar:
         return f"{self.name}, ({self.year}) : ${self.cost}"
 
     def get_age(self):
-        age = 2023 - self.year
+        age = YEAR - self.year
         return age
 
     def is_vintage(self):
-        if self.get_age() > 49:
+        if self.get_age() >= VINTAGE_MIN:
             return True
         else:
             return False
