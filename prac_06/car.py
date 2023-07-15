@@ -8,6 +8,7 @@ class Car:
         """Initialise a Car instance.
 
         fuel: float, one unit of fuel drives one kilometre
+        name: string, is simply the name of the car eg "limo"
         """
         self.fuel = fuel
         self._odometer = 0
