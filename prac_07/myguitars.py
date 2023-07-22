@@ -3,6 +3,7 @@ from prac_07.guitar import Guitar
 
 FILENAME = "guitars.csv"
 
+
 def main():
     """"Gets guitar entry from user and writes to guitars.csv"""
     guitars = read_file()
