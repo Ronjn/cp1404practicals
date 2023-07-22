@@ -19,12 +19,13 @@ def main():
     print("Project Manager 1.0 - by Bryn Baird")
     print(MENU)
     choice = input(">>> ").upper()
+    projects = []
 
     while choice != "Q":
         if choice == "L":
-            load_projects()
+            projects = load_projects()
         elif choice == "S":
-            save_projects()
+            save_projects(projects)
         elif choice == "D":
             print(f"Choice is {choice}")
         elif choice == "F":
@@ -69,8 +70,18 @@ def load_projects():
     return projects
 
 
-def save_projects():
+def save_projects(projects):
+    """Saves data to file"""
     file_name = input("Enter the file name to save to: ")
+
+    output_file = open(file_name, 'r+')  # Opens the file
+    output_file.truncate(0)  # Deletes all file contents
+
+    # For each project in projects, adds the project to the file
+    for project in projects:
+        line = f"{project.name}\t{project.date}\t{project.priority}\t{project.cost}\t{project.completion}\n"
+        output_file.write(line)
+    output_file.close()
 
 
 main()
