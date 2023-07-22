@@ -37,7 +37,7 @@ def read_file():
     # File format is like: Name,Year,Cost
     # 'Consume' the first line (header) - we don't need its contents
     in_file.readline()
-    # All other lines are language data
+    # All other lines are guitar data
     for line in in_file:
         # print(repr(line))  # debugging
         # Strip newline from end and split it into parts (CSV)
