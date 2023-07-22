@@ -5,7 +5,7 @@ Actual time to complete     :  minutes
 
 from prac_07.project import Project
 
-MENU = "Menu: \n" \
+MENU = "\nMenu: \n" \
        "L - Load projects\n" \
        "S - Save projects\n" \
        "D - Display projects\n" \
@@ -27,7 +27,7 @@ def main():
         elif choice == "S":
             save_projects(projects)
         elif choice == "D":
-            print(f"Choice is {choice}")
+            display_projects(projects)
         elif choice == "F":
             print(f"Choice is {choice}")
         elif choice == "A":
@@ -40,10 +40,32 @@ def main():
         choice = input(">>> ").upper()
 
 
+def display_projects(projects):
+    """Displays list of incomplete and complete projects to user"""
+    complete_projects = []
+    incomplete_projects = []
+
+    for project in projects:
+        if project.is_complete():
+            complete_projects.append(project)
+        else:
+            incomplete_projects.append(project)
+
+    print("Incomplete projects:")
+    for incomplete_project in incomplete_projects:
+        print(f"\t{incomplete_project}")
+
+    print("\nComplete projects:")
+    for complete_project in complete_projects:
+        print(f"\t{complete_project}")
+
+
+
 def load_projects():
     """Read file of projects, save as objects."""\
 
-    file_name = input("Enter the file name to load from: ")
+    file_name = "projects.txt"
+    #file_name = input("Enter the file name to load from: ")
 
     projects = []
     # Open the file for reading
