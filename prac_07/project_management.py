@@ -160,7 +160,9 @@ def filter_projects(projects):
     #date_string = "30/12/2021"  # Placeholder for testing
     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
 
-    for project in projects:
+    date_sorted_projects = sorted(projects, key=lambda p: datetime.datetime.strptime(p.date, "%d/%m/%Y").date())
+
+    for project in date_sorted_projects:
         project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
         if project_date > date:
             print(project)
