@@ -67,7 +67,7 @@ def display_projects(projects):
 
     projects.sort()
 
-    # Appends projects to either completed project list or uncompleted by using is_complete method
+    # Appends projects to either completed project list or uncompleted by using is_complete helper method
     for project in projects:
         if project.is_complete():
             complete_projects.append(project)
@@ -87,7 +87,7 @@ def display_projects(projects):
 
 def get_user_input(required_input):
     """Asks the user for their input, and ensures the input is not blank
-    Mainly used for getting user input that should be a string
+    Mainly used for getting user input that should be a string with no real restrictions
     """
 
     user_input = input(f"{required_input}: ")
@@ -194,19 +194,34 @@ def update_project(projects):
     for project_index, project in enumerate(projects, 1):
         print(f"({project_index}) {project}")
 
-    # Gets the user's choice and prints the project they selected
-    project_choice = int(input("Project choice: ")) - 1
-    print(projects[project_choice])
+    need_input = True
+    while need_input:
+        try:
+            # Gets the user's choice and prints the project they selected
+            project_choice = int(input("Project choice: ")) - 1
+            if project_choice < 0:
+                print("Input must be a positive number")
+                continue
 
-    # Calls the get_int_input function to get the user's input, and updates the project based on their input
-    new_percentage = get_int_input("New percentage", MIN_COMPLETION, MAX_COMPLETION)
-    if new_percentage is not None:
-        projects[project_choice].completion = new_percentage
+            print(projects[project_choice])
 
-    # Calls the get_int_input function to get the user's input, and updates the project based on their input
-    new_priority = get_int_input("New priority", MIN_PRIORITY, MAX_PRIORITY)
-    if new_priority is not None:
-        projects[project_choice].priority = new_priority
+            # Calls the get_int_input function to get the user's input, and updates the project based on their input
+            new_percentage = get_int_input("New percentage", MIN_COMPLETION, MAX_COMPLETION)
+            if new_percentage is not None:
+                projects[project_choice].completion = new_percentage
+
+            # Calls the get_int_input function to get the user's input, and updates the project based on their input
+            new_priority = get_int_input("New priority", MIN_PRIORITY, MAX_PRIORITY)
+            if new_priority is not None:
+                projects[project_choice].priority = new_priority
+
+            need_input = False
+
+        except IndexError:
+            print("Selection out of bounds, try again")
+
+        except ValueError:
+            print("Input must be a number, try again")
 
 
 def filter_projects(projects):
