@@ -278,7 +278,11 @@ def load_projects(file_name):
 
     except FileNotFoundError:
         print(f"{file_name} could not be found in current directory, try again.")
-        return None  # This return is only used if file was not found
+        return None  # This return is only used if error occurs
+
+    except PermissionError:
+        print(f"You do not have sufficient permissions to access {file_name}")
+        return None  # This return is only used if error occurs
 
     return projects
 
