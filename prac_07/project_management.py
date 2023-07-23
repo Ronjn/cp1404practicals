@@ -24,6 +24,7 @@ MENU = "\nMenu: \n" \
 
 
 def main():
+    """Prints menu to the user and gets the user's choice"""
     print("Project Manager 1.0 - by Bryn Baird")
 
     file_name = "projects.txt"
@@ -36,7 +37,7 @@ def main():
         if choice == "L":
             candidate_file_name = get_user_input("file name")
             loaded_projects = load_projects(candidate_file_name)
-            if loaded_projects is not None:
+            if loaded_projects is not None:  # Checks the projects were loaded successfully before updating the list
                 file_name = candidate_file_name
                 projects = loaded_projects
         elif choice == "S":
@@ -54,12 +55,13 @@ def main():
             print("Invalid menu selection")
         print(MENU)
         choice = input(">>> ").upper()
+
     print("Thank you for using custom-built project management software.")
     save_projects(projects, file_name)
 
 
 def display_projects(projects):
-    """Displays list of incomplete and complete projects to user"""
+    """Displays list of incomplete and complete projects to user, sorted by priority"""
 
     complete_projects = []
     incomplete_projects = []
@@ -85,7 +87,9 @@ def display_projects(projects):
 
 
 def get_user_input(required_input):
-    """Asks the user for their input, and ensures the input is not blank"""
+    """Asks the user for their input, and ensures the input is not blank
+    Mainly used for getting user input that should be a string
+    """
 
     user_input = input(f"{required_input}: ")
     while user_input == "":
@@ -118,9 +122,12 @@ def add_project(projects):
 
 
 def get_int_input(field_name, min_int, max_int):
-    need_input = True
+    """Gets user input when expecting an int, within a certain range"""
 
+    need_input = True
     user_int = None
+
+    # Will ask the user for their input until it satisfies all conditions
     while need_input:
         user_input = input(f"New {field_name} (range {min_int} - {max_int}): ")
         if user_input == "":
@@ -140,28 +147,38 @@ def get_int_input(field_name, min_int, max_int):
 
 
 def update_project(projects):
+    """Updates a projects priority and or completion percent based on user's choice"""
+
+    # Prints all projects with an index
     for project_index, project in enumerate(projects, 1):
         print(f"({project_index}) {project}")
 
+    # Gets the user's choice and prints the project they selected
     project_choice = int(input("Project choice: ")) - 1
     print(projects[project_choice])
 
+    # Calls the get_int_input function to get the user's input, and updates the project based on their input
     new_percentage = get_int_input("percentage", MIN_COMPLETION, MAX_COMPLETION)
     if new_percentage is not None:
         projects[project_choice].completion = new_percentage
 
+    # Calls the get_int_input function to get the user's input, and updates the project based on their input
     new_priority = get_int_input("priority", MIN_PRIORITY, MAX_PRIORITY)
     if new_priority is not None:
         projects[project_choice].priority = new_priority
 
 
 def filter_projects(projects):
+    """Displays projects started after the user's chosen date"""
+
+    # Gets the user's date input and converts it to a date using datetime module
     date_string = input("Show projects that start after date (dd/mm/yy): ")
-    #date_string = "30/12/2021"  # Placeholder for testing
     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
 
+    # Creates a list sorted by date of the projects
     date_sorted_projects = sorted(projects, key=lambda p: datetime.datetime.strptime(p.date, "%d/%m/%Y").date())
 
+    # Prints the projects to the user
     for project in date_sorted_projects:
         project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
         if project_date > date:
@@ -185,7 +202,6 @@ def load_projects(file_name):
             # Strip newline from end and split it into parts (CSV)
             parts = line.strip().split('\t')
             # Construct a Project object using the elements
-            # year should be an int
             project = Project(parts[0], (parts[1]), int(parts[2]), float(parts[3]), int(parts[4]))
             # Add the project we've just constructed to the list
             projects.append(project)
@@ -214,6 +230,7 @@ def save_projects(projects, file_name):
         output_file.write(line)
     output_file.close()
 
+    # Confirmation printed to the user
     print(f"Projects have been successfully saved to {file_name}")
 
 
