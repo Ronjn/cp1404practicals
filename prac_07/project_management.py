@@ -25,15 +25,23 @@ MENU = "\nMenu: \n" \
 
 def main():
     print("Project Manager 1.0 - by Bryn Baird")
+
+    file_name = "projects.txt"
+    projects = load_projects(file_name)
+
     print(MENU)
     choice = input(">>> ").upper()
-    projects = []
 
     while choice != "Q":
         if choice == "L":
-            projects = load_projects()
+            candidate_file_name = get_user_input("file name")
+            loaded_projects = load_projects(candidate_file_name)
+            if loaded_projects is not None:
+                file_name = candidate_file_name
+                projects = loaded_projects
         elif choice == "S":
-            save_projects(projects)
+            file_name = get_user_input("file name")
+            save_projects(projects, file_name)
         elif choice == "D":
             display_projects(projects)
         elif choice == "F":
@@ -46,6 +54,8 @@ def main():
             print("Invalid menu selection")
         print(MENU)
         choice = input(">>> ").upper()
+    print("Thank you for using custom-built project management software.")
+    save_projects(projects, file_name)
 
 
 def display_projects(projects):
@@ -146,59 +156,63 @@ def update_project(projects):
 
 
 def filter_projects(projects):
-    # date_string = input("Show projects that start after date (dd/mm/yy): ")
-    date_string = "30/12/2021"  # Placeholder for testing
+    date_string = input("Show projects that start after date (dd/mm/yy): ")
+    #date_string = "30/12/2021"  # Placeholder for testing
     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+
     for project in projects:
         project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
         if project_date > date:
             print(project)
 
 
-def load_projects():
+def load_projects(file_name):
     """Read file of projects, save as objects."""
 
-    #file_name = "projects.txt"  # Placeholder for testing
-    file_name = input("Enter the file name to load from: ")
-
     projects = []
-    # Open the file for reading
-    in_file = open(file_name, 'r')
-    # File format is like: Name    Start Date  Priority    Cost Estimate   Completion Percentage
-    # 'Consume' the first line (header) - we don't need its contents
-    in_file.readline()
-    # All other lines are project data
-    for line in in_file:
-        # print(repr(line))  # debugging
-        # Strip newline from end and split it into parts (CSV)
-        parts = line.strip().split('\t')
-        # Construct a Project object using the elements
-        # year should be an int
-        project = Project(parts[0], (parts[1]), int(parts[2]), float(parts[3]), int(parts[4]))
-        # Add the project we've just constructed to the list
-        projects.append(project)
-    # Close the file as soon as we've finished reading it
-    in_file.close()
-    # Loop through and display all projects (using their str method)
-    for project in projects:
-        print(project)
+
+    try:
+        # Open the file for reading
+        in_file = open(file_name, 'r')
+        # File format is like: Name    Start Date  Priority    Cost Estimate   Completion Percentage
+        # 'Consume' the first line (header) - we don't need its contents
+        in_file.readline()
+        # All other lines are project data
+        for line in in_file:
+            # print(repr(line))  # debugging
+            # Strip newline from end and split it into parts (CSV)
+            parts = line.strip().split('\t')
+            # Construct a Project object using the elements
+            # year should be an int
+            project = Project(parts[0], (parts[1]), int(parts[2]), float(parts[3]), int(parts[4]))
+            # Add the project we've just constructed to the list
+            projects.append(project)
+        # Close the file as soon as we've finished reading it
+        in_file.close()
+
+        print(f"{len(projects)} projects successfully loaded from {file_name}")
+
+    except FileNotFoundError:
+        print(f"{file_name} could not be found in current directory, try again.")
+        return None  # This return is only used if file was not found
 
     return projects
 
 
-def save_projects(projects):
+def save_projects(projects, file_name):
     """Saves data to file"""
-    file_name = input("Enter the file name to save to: ")
 
     output_file = open(file_name, 'w+')  # Opens the file and truncates
 
-    output_file.write(f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage")
+    output_file.write(f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage\n")  # Writes the header
 
     # For each project in projects, adds the project to the file
     for project in projects:
         line = f"{project.name}\t{project.date}\t{project.priority}\t{project.cost}\t{project.completion}\n"
         output_file.write(line)
     output_file.close()
+
+    print(f"Projects have been successfully saved to {file_name}")
 
 
 main()
