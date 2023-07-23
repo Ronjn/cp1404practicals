@@ -1,6 +1,6 @@
 """
 Estimated time to complete  : 90 minutes
-Actual time to complete     :  minutes
+Actual time to complete     : ~4 hours (wow i was close huh)
 """
 
 
