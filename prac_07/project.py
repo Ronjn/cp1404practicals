@@ -23,6 +23,9 @@ class Project:
         return f"{self.name}, started on {self.date}, priority:{self.priority}, Estimated cost: ${self.cost}," \
                f" {self.completion}% completed"
 
+    def __lt__(self, other):
+        return self.priority < other.priority
+
     def is_complete(self):
         """Get whether the project is completed"""
         if self.completion == 100:
