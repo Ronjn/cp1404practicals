@@ -12,7 +12,6 @@ MAX_COMPLETION = 100
 MIN_PRIORITY = 1
 MAX_PRIORITY = 25
 
-
 MENU = "\nMenu: \n" \
        "L - Load projects\n" \
        "S - Save projects\n" \
@@ -105,10 +104,10 @@ def add_project(projects):
 
     # Uses the get_user_input function to get input for name, date, priority, cost, and completion
     new_project_name = get_user_input("Project name")
-    new_project_date = get_user_input("Start date (dd/mm/yy)")
-    new_project_priority = get_user_input("Priority")
-    new_project_cost = get_user_input("Cost estimate")
-    new_project_completion = get_user_input("Percent complete")
+    new_project_date = get_date_input("Start date (dd/mm/yy)")
+    new_project_priority = get_int_input("Priority", MIN_PRIORITY, MAX_PRIORITY)
+    new_project_cost = get_float_input("Cost estimate")
+    new_project_completion = get_int_input("Percent complete", MIN_COMPLETION, MAX_COMPLETION)
 
     # Creates the new project
     new_project = Project(new_project_name, new_project_date, (int(new_project_priority)), (float(new_project_cost)),
@@ -121,6 +120,48 @@ def add_project(projects):
     return projects
 
 
+def get_date_input(field_name):
+    """Gets user input when expecting a date"""
+
+    need_input = True
+    user_date = None
+
+    # Will ask the user for their input until it satisfies all conditions
+    while need_input:
+        user_input = input(f"{field_name}: ")
+        if user_input == "":
+            print("Input cannot be blank")
+        else:
+            try:
+                user_date = datetime.datetime.strptime(user_input, "%d/%m/%Y").date()
+                need_input = False
+            except ValueError:
+                print(f"Invalid date format")
+
+    return user_date
+
+
+def get_float_input(field_name):
+    """Gets user input when expecting a float"""
+
+    need_input = True
+    user_float = None
+
+    # Will ask the user for their input until it satisfies all conditions
+    while need_input:
+        user_input = input(f"{field_name}: ")
+        if user_input == "":
+            print("Input cannot be blank")
+        else:
+            try:
+                user_float = float(user_input)
+                need_input = False
+            except ValueError:
+                print(f"{field_name} must be a valid number")
+
+    return user_float
+
+
 def get_int_input(field_name, min_int, max_int):
     """Gets user input when expecting an int, within a certain range"""
 
@@ -129,9 +170,9 @@ def get_int_input(field_name, min_int, max_int):
 
     # Will ask the user for their input until it satisfies all conditions
     while need_input:
-        user_input = input(f"New {field_name} (range {min_int} - {max_int}): ")
+        user_input = input(f"{field_name} (range {min_int} - {max_int}): ")
         if user_input == "":
-            print("")
+            print("Original value kept")
             need_input = False
         else:
             try:
@@ -158,12 +199,12 @@ def update_project(projects):
     print(projects[project_choice])
 
     # Calls the get_int_input function to get the user's input, and updates the project based on their input
-    new_percentage = get_int_input("percentage", MIN_COMPLETION, MAX_COMPLETION)
+    new_percentage = get_int_input("New percentage", MIN_COMPLETION, MAX_COMPLETION)
     if new_percentage is not None:
         projects[project_choice].completion = new_percentage
 
     # Calls the get_int_input function to get the user's input, and updates the project based on their input
-    new_priority = get_int_input("priority", MIN_PRIORITY, MAX_PRIORITY)
+    new_priority = get_int_input("New priority", MIN_PRIORITY, MAX_PRIORITY)
     if new_priority is not None:
         projects[project_choice].priority = new_priority
 
@@ -171,18 +212,28 @@ def update_project(projects):
 def filter_projects(projects):
     """Displays projects started after the user's chosen date"""
 
-    # Gets the user's date input and converts it to a date using datetime module
-    date_string = input("Show projects that start after date (dd/mm/yy): ")
-    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    need_input = True
 
-    # Creates a list sorted by date of the projects
-    date_sorted_projects = sorted(projects, key=lambda p: datetime.datetime.strptime(p.date, "%d/%m/%Y").date())
+    # Repeatedly asks user for input until a valid date is inputted
+    while need_input:
+        try:
+            # Gets the user's date input and converts it to a date using datetime module
+            date_string = input("Show projects that start after date (dd/mm/yy): ")
+            date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
 
-    # Prints the projects to the user
-    for project in date_sorted_projects:
-        project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
-        if project_date > date:
-            print(project)
+            # Creates a list sorted by date of the projects
+            date_sorted_projects = sorted(projects, key=lambda p: datetime.datetime.strptime(p.date, "%d/%m/%Y").date())
+
+            # Prints the projects to the user
+            for project in date_sorted_projects:
+                project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
+                if project_date > date:
+                    print(project)
+
+            need_input = False
+
+        except ValueError:
+            print("Invalid date format, try again")
 
 
 def load_projects(file_name):
