@@ -4,6 +4,7 @@ Actual time to complete     :  minutes
 """
 
 from prac_07.project import Project
+import datetime
 
 MENU = "\nMenu: \n" \
        "L - Load projects\n" \
@@ -29,9 +30,9 @@ def main():
         elif choice == "D":
             display_projects(projects)
         elif choice == "F":
-            print(f"Choice is {choice}")
+            filter_projects(projects)
         elif choice == "A":
-            print(f"Choice is {choice}")
+            projects = add_project(projects)
         elif choice == "U":
             print(f"Choice is {choice}")
         else:
@@ -42,30 +43,76 @@ def main():
 
 def display_projects(projects):
     """Displays list of incomplete and complete projects to user"""
+
     complete_projects = []
     incomplete_projects = []
 
+    # Appends projects to either completed project list or uncompleted by using is_complete method
     for project in projects:
         if project.is_complete():
             complete_projects.append(project)
         else:
             incomplete_projects.append(project)
 
+    # Prints all the incompleted projects
     print("Incomplete projects:")
     for incomplete_project in incomplete_projects:
         print(f"\t{incomplete_project}")
 
+    # Prints all the completed projects
     print("\nComplete projects:")
     for complete_project in complete_projects:
         print(f"\t{complete_project}")
 
 
+def get_user_input(required_input):
+    """Asks the user for their input, and ensures the input is not blank"""
+
+    user_input = input(f"{required_input}: ")
+    while user_input == "":
+        print("Input cannot be blank")
+        user_input = input(f"{required_input}: ")
+    return user_input
+
+
+def add_project(projects):
+    """Adds a new project to memory based on user's input"""
+
+    print(f"\nLets add a new project")
+
+    # Uses the get_user_input function to get input for name, date, priority, cost, and completion
+    new_project_name = get_user_input("Project name")
+    new_project_date = get_user_input("Start date (dd/mm/yy)")
+    new_project_priority = get_user_input("Priority")
+    new_project_cost = get_user_input("Cost estimate")
+    new_project_completion = get_user_input("Percent complete")
+
+    # Creates the new project
+    new_project = Project(new_project_name, new_project_date, (int(new_project_priority)), (float(new_project_cost)),
+                          (int(new_project_completion)))
+
+    projects.append(new_project)  # Adds the new project to the primary list of projects
+
+    # Prints a confirmation to the user that new project has been added
+    print(f"{projects[-1]} added to Project Manager\n")
+    return projects
+
+
+def filter_projects(projects):
+    # date_string = input("Show projects that start after date (dd/mm/yy): ")
+    date_string = "30/12/2021"  # Placeholder for testing
+    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    for project in projects:
+        project_date = datetime.datetime.strptime(project.date, "%d/%m/%Y").date()
+        if project_date > date:
+            print(project)
+
 
 def load_projects():
-    """Read file of projects, save as objects."""\
+    """Read file of projects, save as objects."""
 
-    file_name = "projects.txt"
-    #file_name = input("Enter the file name to load from: ")
+    file_name = "projects.txt"  # Placeholder for testing
+    # file_name = input("Enter the file name to load from: ")
 
     projects = []
     # Open the file for reading
@@ -107,4 +154,3 @@ def save_projects(projects):
 
 
 main()
-
