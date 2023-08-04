@@ -1,6 +1,6 @@
 from prac_09.taxi import Taxi
 
-my_taxi = Taxi(100, "Prius 1", 1.23)
+my_taxi = Taxi(100, "Prius 1")
 
 my_taxi.drive(40)
 
