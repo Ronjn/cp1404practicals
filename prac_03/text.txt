@@ -1,0 +1,4 @@
+On day 1 price is $10.00
+On day 2 price is $9.94
+On day 3 price is $9.72
+On day 4 price is $145.03
